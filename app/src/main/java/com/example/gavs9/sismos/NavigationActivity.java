@@ -137,10 +137,18 @@ public class NavigationActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Comienza a crear los marcadores desde Geonames
-        hiloconexion = new ObtenerWebService();
-        //hiloconexion.execute("paises");
-        hiloconexion.execute("sismos");
+
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                // Comienza a crear los marcadores desde Geonames
+                hiloconexion = new ObtenerWebService();
+                //hiloconexion.execute("paises");
+                hiloconexion.execute(Double.toString(latLng.latitude),Double.toString(latLng.longitude));
+
+            }
+        });
+
 
     }
 
@@ -150,33 +158,12 @@ public class NavigationActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params) {
             String devuelve = "";
-            String valor = params[0];
+            double latitud = Double.parseDouble(params[0]);
+            double longitud = Double.parseDouble(params[1]);
+
             try {
-                if(valor == "sismos") {
+                    //String cadena = "http://api.geonames.org/earthquakesJSON?formatted=true&north=11.216819&south=8.032975&east=-82.555992&west=-85.950623&username=gabceb95&style=full";
 
-                    String cadena = "http://api.geonames.org/earthquakesJSON?formatted=true&north=11.216819&south=8.032975&east=-82.555992&west=-85.950623&username=gabceb95&style=full";
-                    URL url = null; // Url de donde queremos obtener información
-                    url = new URL(cadena);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection(); //Abrir la conexión
-                    connection.setRequestProperty("User-Agent", "Mozilla/5.0" +
-                           " (Linux; Android 1.5; es-ES) Ejemplo HTTP");
-                   //connection.setHeader("content-type", "application/json");
-                   int respuesta = connection.getResponseCode();
-                   StringBuilder result = new StringBuilder();
-
-                   if (respuesta == HttpURLConnection.HTTP_OK ) {
-                       InputStream in = new BufferedInputStream(connection.getInputStream());  // preparo la cadena de entrada
-                       BufferedReader reader = new BufferedReader(new InputStreamReader(in));  // la introduzco en un BufferedReader
-                       String line = "";
-                       while ((line = reader.readLine()) != null) {
-
-                           if (line != null)
-                               result.append(line);
-                       }
-
-                       devuelve = (result.toString());
-                   }
-               }else{
                     String cadena = "http://api.geonames.org/countryInfoJSON?formatted=true&lang=es&username=gabceb95&style=full";
                     URL url = null; // Url de donde queremos obtener información
 
@@ -198,12 +185,54 @@ public class NavigationActivity extends AppCompatActivity
                                 result.append(line);
                         }
 
-                        devuelve = (result.toString());
+                        JSONObject respuestaJSON = new JSONObject(result.toString());
+                        JSONArray resultJSON = respuestaJSON.getJSONArray("geonames");
+                        for (int i = 0; i < resultJSON.length(); i++) {
+                            JSONObject obj = resultJSON.getJSONObject(i);
+
+                            if(obj.getDouble("east") >= longitud && obj.getDouble("west") <= longitud
+                                    && obj.getDouble("north") >= latitud && obj.getDouble("south") <= latitud){
+                                System.out.println(obj.getString("countryName"));
+
+                                //**********************
+
+                                String cadena2 = "http://api.geonames.org/earthquakesJSON?formatted=true" +
+                                        "&north=" + Double.toString(obj.getDouble("north")) + "&south=" + Double.toString(obj.getDouble("south")) +
+                                        "&east=" + Double.toString(obj.getDouble("east")) + "" + "&west=" + Double.toString(obj.getDouble("west")) +
+                                        "&username=gabceb95&style=full";
+
+                                URL url2 = null; // Url de donde queremos obtener información
+
+                                url2 = new URL(cadena2);
+                                HttpURLConnection connection2 = (HttpURLConnection) url2.openConnection(); //Abrir la conexión
+                                connection2.setRequestProperty("User-Agent", "Mozilla/5.0" +
+                                        " (Linux; Android 1.5; es-ES) Ejemplo HTTP");
+                                //connection.setHeader("content-type", "application/json");
+                                int respuesta2 = connection2.getResponseCode();
+                                StringBuilder result2 = new StringBuilder();
+
+                                if (respuesta2 == HttpURLConnection.HTTP_OK ) {
+                                    InputStream in2 = new BufferedInputStream(connection2.getInputStream());  // preparo la cadena de entrada
+                                    BufferedReader reader2 = new BufferedReader(new InputStreamReader(in2));  // la introduzco en un BufferedReader
+                                    String line2 = "";
+                                    while ((line2 = reader2.readLine()) != null) {
+
+                                        if (line2 != null)
+                                            result2.append(line2);
+                                    }
+                                }
+
+                                return result2.toString();
+                                //**********************
+
+                            }
+                        }
+
+                        return devuelve;
                     }
-               }
+
            }catch (Exception e) {
-                   Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+                   Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();}
 
             return devuelve;
         }
@@ -216,7 +245,9 @@ public class NavigationActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String aVoid) {
             try {
-                Toast.makeText(getApplicationContext(), aVoid, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), aVoid, Toast.LENGTH_SHORT).show();
+
+                mMap.clear();
 
                 JSONObject respuestaJSON = new JSONObject(aVoid);
                 //Accedemos al vector de resultados
