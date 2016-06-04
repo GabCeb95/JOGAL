@@ -75,8 +75,7 @@ public class NavigationActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        hiloconexion = new ObtenerWebService();
-        hiloconexion.execute();
+
 
     }
 
@@ -142,9 +141,13 @@ public class NavigationActivity extends AppCompatActivity
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        /*LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
+
+        hiloconexion = new ObtenerWebService();
+        hiloconexion.execute();
+
     }
 
 
@@ -187,19 +190,6 @@ public class NavigationActivity extends AppCompatActivity
                         result.append(line);        // Paso toda la entrada al StringBuilder
                     }
 
-                    //Creamos un objeto JSONObject para poder acceder a los atributos (campos) del objeto.
-                    JSONObject respuestaJSON = new JSONObject(result.toString());   //Creo un JSONObject a partir del StringBuilder pasado a cadena
-                    //Accedemos al vector de resultados
-                   /* JSONArray resultJSON = respuestaJSON.getJSONArray("earthquakes");   // earthquakes es el nombre del campo en el JSON
-
-
-                    for(int i=0;i < resultJSON.length();i++){
-                        System.out.println(resultJSON.getJSONObject(i).getString("datetime"));
-                        JSONObject obj = resultJSON.getJSONObject(i);
-                        LatLng pos = new LatLng(obj.getDouble("lat"), obj.getDouble("lng"));
-                        mMap.addMarker(new MarkerOptions().position(pos).title(obj.getString("datetime")));
-                    }
-*/
                     devuelve = result.toString();
                 }
 
@@ -208,22 +198,37 @@ public class NavigationActivity extends AppCompatActivity
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch(Exception e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             return devuelve;
         }
 
         @Override
         protected void onCancelled(String aVoid) {
-            super.onCancelled(aVoid);
+            //super.onCancelled(aVoid);
         }
 
         @Override
         protected void onPostExecute(String aVoid) {
-            Toast.makeText(getApplicationContext(), aVoid, Toast.LENGTH_SHORT).show();
+            try {
+                Toast.makeText(getApplicationContext(), aVoid, Toast.LENGTH_SHORT).show();
 
-            //super.onPostExecute(aVoid);
+                JSONObject respuestaJSON = new JSONObject(aVoid);
+                //Accedemos al vector de resultados
+                JSONArray resultJSON = respuestaJSON.getJSONArray("earthquakes");   // earthquakes es el nombre del campo en el JSON
+
+
+                for (int i = 0; i < resultJSON.length(); i++) {
+                    System.out.println(resultJSON.getJSONObject(i).getString("datetime"));
+                    JSONObject obj = resultJSON.getJSONObject(i);
+                    LatLng pos = new LatLng(obj.getDouble("lat"), obj.getDouble("lng"));
+                    mMap.addMarker(new MarkerOptions().position(pos).title(obj.getString("datetime")));
+                }
+            } catch(Exception e)
+            {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -237,8 +242,6 @@ public class NavigationActivity extends AppCompatActivity
             super.onProgressUpdate(values);
         }
     }
-
-
 
 
 }
