@@ -98,12 +98,9 @@ public class NavigationActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -140,11 +137,7 @@ public class NavigationActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        /*LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
-
+        // Comienza a crear los marcadores desde Geonames
         hiloconexion = new ObtenerWebService();
         hiloconexion.execute();
 
@@ -187,7 +180,7 @@ public class NavigationActivity extends AppCompatActivity
                     String line;
                     while ((line = reader.readLine()) != null) {
 
-                        result.append(line);        // Paso toda la entrada al StringBuilder
+                        result.append(line);
                     }
 
                     devuelve = result.toString();
