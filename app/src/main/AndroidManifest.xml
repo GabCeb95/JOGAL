@@ -46,6 +46,33 @@
         <activity
             android:name=".NavigationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SismosOficialesActivity"
+            android:label="@string/title_activity_sismos_oficiales"
+            android:parentActivityName=".NavigationActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.gavs9.sismos.NavigationActivity" />
+        </activity>
+        <activity
+            android:name=".SismosReportadosActivity"
+            android:label="@string/title_activity_sismos_reportados"
+            android:parentActivityName=".NavigationActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.gavs9.sismos.NavigationActivity" />
+        </activity>
+        <activity
+            android:name=".ReporteActivity"
+            android:label="@string/title_activity_reporte"
+            android:parentActivityName=".NavigationActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.gavs9.sismos.NavigationActivity" />
+        </activity>
     </application>
 
 </manifest>

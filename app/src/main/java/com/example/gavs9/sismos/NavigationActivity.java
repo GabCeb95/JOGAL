@@ -1,17 +1,16 @@
 package com.example.gavs9.sismos;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +34,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class NavigationActivity extends AppCompatActivity
+public class NavigationActivity extends Base
         implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
 
     ObtenerWebService hiloconexion;
@@ -55,8 +54,8 @@ public class NavigationActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intento = new Intent(getApplicationContext(), ReporteActivity.class);
+                startActivity(intento);
             }
         });
 
@@ -114,18 +113,14 @@ public class NavigationActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_mapa) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_sismos_oficiales) {
+            Intent intento = new Intent(getApplicationContext(), SismosOficialesActivity.class);
+            startActivity(intento);
+        } else if (id == R.id.nav_sismos_reportados) {
+            Intent intento = new Intent(getApplicationContext(), SismosReportadosActivity.class);
+            startActivity(intento);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

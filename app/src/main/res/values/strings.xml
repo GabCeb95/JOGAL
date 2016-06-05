@@ -2,23 +2,24 @@
     <string name="app_name">Sismos</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="prompt_email">Usuario</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Inicia sesión o regístrate</string>
+    <string name="action_sign_in_short">Iniciar sesión</string>
+    <string name="error_invalid_email">Usuario incorrecto</string>
+    <string name="error_invalid_password">Contraseña muy corta</string>
+    <string name="error_incorrect_password">Contraseña incorrecta</string>
+    <string name="error_field_required">Este campo es obligatorio</string>
+    <string name="permission_rationale">"Es necesario obtener permiso a los contactos"</string>
     <string name="title_activity_actividad_principal">ActividadPrincipal</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="title_activity_navigation">Sismos</string>
+    <string name="title_activity_sismos_oficiales">Sismos Oficiales</string>
+    <string name="title_activity_sismos_reportados">Sismos reportados</string>
+    <string name="title_activity_reporte">Crear Reporte</string>
 </resources>
