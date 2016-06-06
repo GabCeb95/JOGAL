@@ -22,5 +22,5 @@
     <string name="title_activity_sismos_oficiales">Sismos Oficiales</string>
     <string name="title_activity_sismos_reportados">Sismos reportados</string>
     <string name="title_activity_reporte">Crear Reporte</string>
-    <string name="title_activity_clima">ClimaActivity</string>
+    <string name="title_activity_clima">Clima</string>
 </resources>

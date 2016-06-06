@@ -47,15 +47,6 @@ public class ReporteService {
 
             return reportes;
         }
-
-        @Override
-        protected void onPostExecute(ArrayList<Reporte> aVoid) {
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
     }.execute().get();
         return task;
     }

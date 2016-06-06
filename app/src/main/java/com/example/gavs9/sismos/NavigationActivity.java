@@ -339,7 +339,7 @@ public class NavigationActivity extends Base
                         .position(pos1)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.accidente))
                         .anchor(0.0f, 1.0f)
-                        .title("Fecha : " + reporte.getFecha() ).snippet((" Tipo : " + reporte.getDescripcion())));
+                        .title("Fecha : " + reporte.getFecha() ).snippet((" Tipo : " + reporte.getTipo()+"\n Descripcion: "+reporte.getDescripcion())));
             }
         }catch(Exception e) {
             System.out.println("ERROR : " + e.getMessage());

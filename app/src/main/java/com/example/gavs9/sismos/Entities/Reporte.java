@@ -69,6 +69,10 @@ public class Reporte {
         this.fecha = fecha;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
     public HashMap<String,String> getHashMap(){
         HashMap<String,String> hm = new HashMap<>();
         hm.put("lat",latitud);
@@ -77,6 +81,7 @@ public class Reporte {
         hm.put("tipo",tipo);
         return hm;
     }
+
 
     String latitud;
     String longitud;
