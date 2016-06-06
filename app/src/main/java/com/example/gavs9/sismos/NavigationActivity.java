@@ -283,7 +283,7 @@ public class NavigationActivity extends Base
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.sismo))
                             .anchor(0.0f, 1.0f)
                             .title(("Fecha : " + obj.getString("datetime")))
-                            .snippet(("Magnitud : " + obj.getString("depth"))));
+                            .snippet(("Magnitud : " + obj.getString("magnitude"))));
 
 
                 }

@@ -127,18 +127,28 @@ public class ReporteActivity extends Base implements GoogleApiClient.ConnectionC
         SismoService sismoService = new SismoService();
         EditText et = (EditText) findViewById(R.id.descripcion);
 
-        Sismo sismo = new Sismo("10.043822","-83.988932", "0.0", "Por verificar");
-        //Sismo sismo = new Sismo(getLocation().getLatitude() + "", getLocation().getLongitude() + "", "0.0", "Por verificar");
+        //Sismo sismo = new Sismo("10.043822","-83.988932", "0.0", "Por verificar");
+        Sismo sismo = new Sismo(getLocation().getLatitude() + "", getLocation().getLongitude() + "", "0.0", "Por verificar");
         sismoService.add(sismo.getHashMap());
+
+        Mensaje("Sismo reportado correctamente");
+        clear();
     }
 
     public void crearReporteDanno(){
         ReporteService rs = new ReporteService();
         EditText et = (EditText) findViewById(R.id.descripcion);
         String descripcion = et.getText().toString();
-        Reporte reporte = new Reporte("10.043822","-83.988932",descripcion,selected);
-        //Reporte reporte = new Reporte(getLocation().getLatitude()+"",getLocation().getLongitude()+"",descripcion,selected);
+        //Reporte reporte = new Reporte("10.043822","-83.988932",descripcion,selected);
+        Reporte reporte = new Reporte(getLocation().getLatitude()+"",getLocation().getLongitude()+"",descripcion,selected);
         rs.add(reporte.getHashMap());
+        Mensaje("Reporte creado correctamente");
+        clear();
+    }
+
+    private void clear(){
+        descripcion.setText("");
+        switchSismo.setChecked(false);
     }
 
     private void clearElements(){
