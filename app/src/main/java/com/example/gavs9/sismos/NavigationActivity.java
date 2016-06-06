@@ -119,12 +119,12 @@ public class NavigationActivity extends Base
 
         if (id == R.id.nav_mapa) {
             // Handle the camera action
-        } else if (id == R.id.nav_sismos_oficiales) {
-            Intent intento = new Intent(getApplicationContext(), SismosOficialesActivity.class);
-            startActivity(intento);
-        } else if (id == R.id.nav_sismos_reportados) {
-            Intent intento = new Intent(getApplicationContext(), SismosReportadosActivity.class);
-            startActivity(intento);
+        } else if (id == R.id.nav_sismos) {
+           // Intent intento = new Intent(getApplicationContext(), SismosOficialesActivity.class);
+           // startActivity(intento);
+        } else if (id == R.id.nav_clima) {
+            //Intent intento = new Intent(getApplicationContext(), SismosReportadosActivity.class);
+            //startActivity(intento);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
