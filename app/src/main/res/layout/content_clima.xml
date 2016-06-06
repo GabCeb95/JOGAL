@@ -38,10 +38,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Temperatura"
+        android:text="C"
         android:id="@+id/txtTemp"
         android:textAlignment="center"
         android:textSize="25dp"
         android:layout_below="@+id/txtClima"
-        android:layout_centerHorizontal="true" />
+        android:layout_toEndOf="@+id/txtClima" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperatura: "
+        android:id="@+id/textView4"
+        android:textSize="25dp"
+        android:layout_below="@+id/txtClima"
+        android:layout_toStartOf="@+id/txtTemp" />
 </RelativeLayout>

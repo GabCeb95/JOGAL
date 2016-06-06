@@ -124,14 +124,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         btnReg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View arg0) {
-                registrar(btnReg);
+
+                AutoCompleteTextView usuario = (AutoCompleteTextView) findViewById(R.id.email);
+                EditText password = (EditText) findViewById(R.id.password);
+
+                if(!usuario.getText().toString().equals("")){
+                    if(!password.getText().toString().equals("")){
+                        registrar(btnReg);
+                    }else{
+                        Snackbar.make(findViewById(android.R.id.content), "Escriba una contraseña", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    }
+                }else {
+                    Snackbar.make(findViewById(android.R.id.content), "Escriba nombre de usuario", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
     }
-
-
-
 
 
     static EditText texto;
@@ -139,7 +148,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         texto =  new EditText(view.getContext());
         AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
         builder1.setMessage("Digite su nombre:");
-        texto.setText("Dato");
+        texto.setText("Nombre");
         texto.selectAll();
         builder1.setView(texto);
 

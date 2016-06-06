@@ -54,7 +54,7 @@ public void establecerClima() throws ExecutionException, InterruptedException {
 
         String cli = clima.getClima().toLowerCase();
         txClima.setText(clima.getClima());
-        txTemp.setText(Float.toString(clima.getTemperatura()));
+        txTemp.setText(Float.toString(clima.getTemperatura())+" Grados");
 
         if (cli.contains("cloud")){
             imgClima.setImageResource(R.drawable.cloud);}
