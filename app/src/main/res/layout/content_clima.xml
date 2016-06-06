@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.gavs9.sismos.ClimaActivity"
-    tools:showIn="@layout/activity_clima">
+    tools:showIn="@layout/activity_clima"
+    android:background="#9800479e">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -33,7 +34,8 @@
         android:textSize="25dp"
         android:theme="@style/AppTheme"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#c2c0c0" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +45,9 @@
         android:textAlignment="center"
         android:textSize="25dp"
         android:layout_below="@+id/txtClima"
-        android:layout_toEndOf="@+id/txtClima" />
+        android:layout_toEndOf="@+id/txtClima"
+        android:textStyle="bold"
+        android:textColor="#bebebe" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,5 +56,6 @@
         android:id="@+id/textView4"
         android:textSize="25dp"
         android:layout_below="@+id/txtClima"
-        android:layout_toStartOf="@+id/txtTemp" />
+        android:layout_toStartOf="@+id/txtTemp"
+        android:textColor="#c3c3c3" />
 </RelativeLayout>
