@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -116,8 +117,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
 
         configurarBotones();
+        validarLog();
     }
 
+
+    public void validarLog(){
+
+        SharedPreferences prefs;
+        prefs = getSharedPreferences("MisPref", MODE_PRIVATE);
+        String username = prefs.getString("username", "nologeado");
+
+        if(!username.equals("nologeado")){
+            Intent intento = new Intent(getApplicationContext(), NavigationActivity.class);
+            startActivity(intento);
+
+        }
+    }
     public void configurarBotones(){
 
         final Button btnReg = (Button) findViewById(R.id.btnReg);
@@ -402,11 +417,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
 
+
+
+
             for (Usuario u : usuarios) {
 
                 if (u.getUsername().equals(mEmail)) {
                     // Account exists, return true if the password matches.
-                    return u.getPassword().equals(mPassword);
+                    if(u.getPassword().equals(mPassword) ){
+                        SalvarInfo(mEmail);
+                        return true;
+                    }else{
+                        return false;
+                    }
                 }
             }
 
@@ -420,6 +443,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+
                 Intent intento = new Intent(getApplicationContext(), NavigationActivity.class);
                 startActivity(intento);
             } else {
@@ -433,6 +457,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+
     }
+
+
+    public void SalvarInfo(String nombre){
+        SharedPreferences prefs;
+
+        prefs = getSharedPreferences("MisPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("username", nombre);
+        editor.commit();
+    };
 }
 

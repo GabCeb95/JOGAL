@@ -2,6 +2,7 @@ package com.example.gavs9.sismos;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -150,6 +151,16 @@ public class NavigationActivity extends Base
             mMap.clear();
             miUbicacion();
             verReportes();
+
+        }else if (id == R.id.nav_cerrar_sesion) {
+
+            SharedPreferences prefs = getSharedPreferences("MisPref", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear();
+            editor.commit();
+
+            Intent intento = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intento);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -18,6 +18,10 @@
             android:id="@+id/nav_clima"
             android:icon="@drawable/ic_clima"
             android:title="Clima" />
+        <item
+            android:id="@+id/nav_cerrar_sesion"
+            android:icon="@drawable/common_full_open_on_phone"
+            android:title="Cerrar Sesion" />
     </group>
 
 </menu>
