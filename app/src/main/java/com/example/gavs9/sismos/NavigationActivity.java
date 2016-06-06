@@ -21,7 +21,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.gavs9.sismos.Entities.Reporte;
 import com.example.gavs9.sismos.Entities.Sismo;
+import com.example.gavs9.sismos.Services.ReporteService;
 import com.example.gavs9.sismos.Services.Request;
 import com.example.gavs9.sismos.Services.SismoService;
 import com.google.android.gms.common.ConnectionResult;
@@ -128,10 +130,13 @@ public class NavigationActivity extends Base
             // Handle the camera action
         } else if (id == R.id.nav_sismos) {
             if(getLocation() != null) {
-                LatLng latLng= new LatLng(getLocation().getLatitude(),getLocation().getLongitude());
-                // Comienza a crear los marcadores desde Geonames
-                Mensaje("Click");
-                getLocationClick(latLng);
+                mMap.clear();
+
+                miUbicacion();
+
+                hiloconexion = new ObtenerWebService();
+                hiloconexion.execute(Double.toString(mMap.getMyLocation().getLatitude()), Double.toString(mMap.getMyLocation().getLongitude()));
+
 
             }else
             {
@@ -140,6 +145,11 @@ public class NavigationActivity extends Base
         } else if (id == R.id.nav_clima) {
             //Intent intento = new Intent(getApplicationContext(), SismosReportadosActivity.class);
             //startActivity(intento);
+        }else if(id == R.id.nav_reportes)
+        {
+            mMap.clear();
+            miUbicacion();
+            verReportes();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -150,10 +160,6 @@ public class NavigationActivity extends Base
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        LatLng milugar = new LatLng(9.971157, -84.129138);
-        int zoomLevel =6;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(milugar, zoomLevel));
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -183,6 +189,8 @@ public class NavigationActivity extends Base
                 return false;
             }
         });
+
+        //miUbicacionInicial();
 
     }
 
@@ -264,7 +272,13 @@ public class NavigationActivity extends Base
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.sismo))
                             .anchor(0.0f, 1.0f)
                             .title(("Fecha : " + obj.getString("datetime")) + (" \nMagnitud : " + obj.getString("depth"))));
+
+
                 }
+
+                sismosAPP();
+
+
             } catch(Exception e)
             {
                 e.printStackTrace();
@@ -281,51 +295,75 @@ public class NavigationActivity extends Base
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
         }
+
+        private void sismosAPP()
+        {
+            try {
+                SismoService s = new SismoService();
+                ArrayList<Sismo> sismos = s.get();
+
+                for(Sismo sismo:sismos)
+                {
+                    System.out.println(sismo.getLatitud() + "   " + sismo.getLongitud());
+                    LatLng pos1 = new LatLng(Double.parseDouble(sismo.getLatitud()), Double.parseDouble(sismo.getLongitud()));
+                    mMap.addMarker(new MarkerOptions()
+                            .position(pos1)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.reporte))
+                            .anchor(0.0f, 1.0f)
+                            .title("Fecha : " + sismo.getFecha() + (" \nMagnitud : " + sismo.getMagnitud()) +
+                                    (" \nEpicentro : " + sismo.getEpicentro())));
+                }
+            }catch(Exception e) {
+                System.out.println("ERROR : " + e.getMessage());
+            }
+
+        }
     }
 
-// GPS
 
-    private void getLocationClick(LatLng latLng)
+    private void verReportes()
     {
+        LatLng latLng= new LatLng(getLocation().getLatitude(),getLocation().getLongitude());
         LatLng milugar = new LatLng(latLng.latitude, latLng.longitude);
-        int zoomLevel = 6;
+
+        try {
+            ReporteService s = new ReporteService();
+            ArrayList<Reporte> reportes = s.get();
+
+            for(Reporte reporte:reportes)
+            {
+                LatLng pos1 = new LatLng(Double.parseDouble(reporte.getLatitud()), Double.parseDouble(reporte.getLongitud()));
+                mMap.addMarker(new MarkerOptions()
+                        .position(pos1)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.accidente))
+                        .anchor(0.0f, 1.0f)
+                        .title("Fecha : " + reporte.getFecha() + (" Tipo : " + reporte.getDescripcion())));
+            }
+        }catch(Exception e) {
+            System.out.println("ERROR : " + e.getMessage());
+        }
+    }
+
+    private void miUbicacion()
+    {
+        LatLng latLng= new LatLng(getLocation().getLatitude(),getLocation().getLongitude());
+        LatLng milugar = new LatLng(latLng.latitude, latLng.longitude);
+        int zoomLevel = 13;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(milugar, zoomLevel));
+    }
+
+    private void miUbicacionInicial()
+    {
+        LatLng latLng= new LatLng(getLocation().getLatitude(),getLocation().getLongitude());
+        LatLng milugar = new LatLng(latLng.latitude, latLng.longitude);
+        float zoomLevel = 16.0f;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(milugar, zoomLevel));
 
-        // GEONAMES
-        hiloconexion = new ObtenerWebService();
-        hiloconexion.execute(Double.toString(latLng.latitude), Double.toString(latLng.longitude));
-
-        //NO OFICIALES
-
-            new AsyncTask<String, Integer, Sismo>() {
-                @Override
-                protected Sismo doInBackground(String... params) {
-                    try {
-                    SismoService s = new SismoService();
-                    ArrayList<Sismo> sismos = s.get();
-                        System.out.println("ADIOOOOOOOOOOOOOOOOOOS " + sismos.size());
-
-                    for(Sismo sismo:sismos)
-                    {
-                        System.out.println(sismo);
-                        LatLng pos = new LatLng(Double.parseDouble(sismo.getLatitud()), Double.parseDouble(sismo.getLongitud()));
-                        mMap.addMarker(new MarkerOptions()
-                                .position(pos)
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.reporte))
-                                .anchor(0.0f, 1.0f)
-                                .title("Fecha : " + sismo.getFecha() + (" \nMagnitud : " + sismo.getMagnitud()) +
-                                        (" \nEpicentro : " + sismo.getEpicentro())));
-                    }
-                    }catch(Exception e) {
-                        System.out.println("ERROOOOOOOOR : " + e.getMessage());
-                    }
-                    return new Sismo();
-                }
-
-            }.execute();
-
-
-
+        mMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.accidente))
+                .anchor(0.0f, 1.0f)
+                .title("Aquí estoy!")).setSnippet("LAT: " + latLng.latitude + "LNG: " + latLng.longitude);
     }
 
 }

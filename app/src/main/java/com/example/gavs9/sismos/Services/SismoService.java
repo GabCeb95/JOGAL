@@ -29,7 +29,7 @@ public class SismoService {
                 ArrayList<Sismo> sismos = new ArrayList<>();
                 Request<Sismo> req = new Request<>();
                 try {
-                    JSONArray sismosFromApi = req.get("https://jogal-api.herokuapp.com/api/reportes");
+                    JSONArray sismosFromApi = req.get("https://jogal-api.herokuapp.com/api/sismos");
                     for(int i=0;i<sismosFromApi.length();i++){
                         JSONObject obj = (JSONObject) sismosFromApi.get(i);
                         sismos.add(new Sismo(obj));
@@ -44,7 +44,6 @@ public class SismoService {
 
             @Override
             protected void onPostExecute(ArrayList<Sismo> aVoid) {
-
             }
 
             @Override
