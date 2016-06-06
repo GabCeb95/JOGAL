@@ -19,7 +19,6 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -70,6 +69,90 @@ public class Request<T> {
         }
 
         return arr;
+    }
+
+    public JSONArray getGeo(String apiUrl)throws MalformedURLException {
+
+        JSONArray arr = null;
+        HttpURLConnection connection =null;
+        URL url = null;
+        try {
+            url = new URL(apiUrl);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0" +
+                    " (Linux; Android 1.5; es-ES) Ejemplo HTTP");
+            connection.setRequestMethod("GET");
+            int respuesta = connection.getResponseCode();
+
+            StringBuilder result = new StringBuilder();
+
+            if (respuesta == HttpURLConnection.HTTP_OK){
+
+                InputStream in = new BufferedInputStream(connection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+
+                JSONObject respuestaJSON = new JSONObject(result.toString());
+                JSONArray resultJSON = respuestaJSON.getJSONArray("geonames");
+                return resultJSON;
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return arr;
+
+    }
+
+    public String getEarthquakes(String apiUrl)throws MalformedURLException {
+
+        String arr = null;
+        HttpURLConnection connection =null;
+        URL url = null;
+        try {
+            url = new URL(apiUrl);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0" +
+                    " (Linux; Android 1.5; es-ES) Ejemplo HTTP");
+            connection.setRequestMethod("GET");
+            int respuesta = connection.getResponseCode();
+
+            StringBuilder result = new StringBuilder();
+
+            if (respuesta == HttpURLConnection.HTTP_OK){
+
+                InputStream in = new BufferedInputStream(connection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                return result.toString();
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return arr;
+
     }
 
     public JSONObject getById(String apiUrl){

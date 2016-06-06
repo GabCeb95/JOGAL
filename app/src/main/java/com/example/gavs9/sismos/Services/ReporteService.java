@@ -1,9 +1,6 @@
 package com.example.gavs9.sismos.Services;
 
 import android.os.AsyncTask;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-
 
 import com.example.gavs9.sismos.Entities.Reporte;
 import com.example.gavs9.sismos.Entities.Sismo;
@@ -12,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,7 +90,7 @@ public class ReporteService {
 
                 Request req = new Request();
                 HashMap<String,String> hm = params[0];
-                req.post("https://jogal-api.herokuapp.com/api/reportes",hm);
+                req.post("https://jogal-api.herokuapp.com/api/reportes/",hm);
                 return "";
             }
         }.execute(hm);

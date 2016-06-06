@@ -3,6 +3,8 @@ package com.example.gavs9.sismos.Entities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 /**
  * Created by AlvaroLopez on 4/6/16.
  */
@@ -14,6 +16,13 @@ public class Reporte {
         this.longitud = longitud;
         this.descripcion = descripcion;
         this.fecha = fecha;
+        this.tipo = tipo;
+    }
+
+    public Reporte(String latitud, String longitud, String descripcion, String tipo) {
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.descripcion = descripcion;
         this.tipo = tipo;
     }
 
@@ -58,6 +67,15 @@ public class Reporte {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public HashMap<String,String> getHashMap(){
+        HashMap<String,String> hm = new HashMap<>();
+        hm.put("lat",latitud);
+        hm.put("lng",longitud);
+        hm.put("descripcion",descripcion);
+        hm.put("tipo",tipo);
+        return hm;
     }
 
     String latitud;

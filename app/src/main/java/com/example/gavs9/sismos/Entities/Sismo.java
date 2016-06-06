@@ -1,8 +1,9 @@
 package com.example.gavs9.sismos.Entities;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * Created by AlvaroLopez on 4/6/16.
@@ -17,6 +18,13 @@ public class Sismo {
         this.magnitud = magnitud;
         this.epicentro = epicentro;
         this.fecha = fecha;
+    }
+
+    public Sismo(String latitud, String longitud, String magnitud, String epicentro) {
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.magnitud = magnitud;
+        this.epicentro = epicentro;
     }
 
     public Sismo() {}
@@ -67,6 +75,15 @@ public class Sismo {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public HashMap<String,String> getHashMap(){
+        HashMap<String,String> hm = new HashMap<>();
+        hm.put("lat",latitud);
+        hm.put("lng",longitud);
+        hm.put("descripcion",magnitud);
+        hm.put("tipo",epicentro);
+        return hm;
     }
 
     String latitud;

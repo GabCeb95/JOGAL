@@ -12,7 +12,6 @@ public class ReporteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reporte);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

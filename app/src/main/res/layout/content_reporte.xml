@@ -12,4 +12,80 @@
     tools:context="com.example.gavs9.sismos.ReporteActivity"
     tools:showIn="@layout/activity_reporte">
 
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/radioGroup"
+        android:showDividers="none">
+
+    </RadioGroup>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sismo"
+        android:id="@+id/switch1"
+        android:checked="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_above="@+id/textView2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="31dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/scrollView"
+        android:layout_above="@+id/button2"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="67dp">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText" />
+    </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ligar a sismo"
+        android:id="@+id/button"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/spinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Descripcion de reporte"
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/scrollView"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Tipo reporte"
+        android:id="@+id/textView3"
+        android:layout_above="@+id/spinner"
+        android:layout_alignEnd="@+id/switch1" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crear reporte"
+        android:id="@+id/button2"
+        android:layout_marginBottom="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

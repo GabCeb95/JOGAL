@@ -6,6 +6,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.gavs9.sismos.Services.Request;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -27,15 +33,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class NavigationActivity extends Base
-        implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
+        implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     ObtenerWebService hiloconexion;
     private GoogleMap mMap;
@@ -68,7 +67,12 @@ public class NavigationActivity extends Base
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        super.mLocationClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        super.mLocationClient.connect();
 
         // *****************************************++++
 
@@ -147,6 +151,21 @@ public class NavigationActivity extends Base
 
     }
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Mensaje("Error al conectar API GPS");
+    }
+
 
     public class ObtenerWebService extends AsyncTask<String, Integer, String> {
 
@@ -159,74 +178,26 @@ public class NavigationActivity extends Base
             try {
                     //String cadena = "http://api.geonames.org/earthquakesJSON?formatted=true&north=11.216819&south=8.032975&east=-82.555992&west=-85.950623&username=gabceb95&style=full";
 
-                    String cadena = "http://api.geonames.org/countryInfoJSON?formatted=true&lang=es&username=gabceb95&style=full";
-                    URL url = null; // Url de donde queremos obtener información
-
-                    url = new URL(cadena);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection(); //Abrir la conexión
-                    connection.setRequestProperty("User-Agent", "Mozilla/5.0" +
-                            " (Linux; Android 1.5; es-ES) Ejemplo HTTP");
-                    //connection.setHeader("content-type", "application/json");
-                    int respuesta = connection.getResponseCode();
-                    StringBuilder result = new StringBuilder();
-
-                    if (respuesta == HttpURLConnection.HTTP_OK ) {
-                        InputStream in = new BufferedInputStream(connection.getInputStream());  // preparo la cadena de entrada
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));  // la introduzco en un BufferedReader
-                        String line = "";
-                        while ((line = reader.readLine()) != null) {
-
-                            if (line != null)
-                                result.append(line);
-                        }
-
-                        JSONObject respuestaJSON = new JSONObject(result.toString());
-                        JSONArray resultJSON = respuestaJSON.getJSONArray("geonames");
+                    String apiGeo = "http://api.geonames.org/countryInfoJSON?formatted=true&lang=es&username=gabceb95&style=full";
+                    Request req = new Request();
+                    JSONArray resultJSON = req.getGeo(apiGeo);
                         for (int i = 0; i < resultJSON.length(); i++) {
                             JSONObject obj = resultJSON.getJSONObject(i);
 
                             if(obj.getDouble("east") >= longitud && obj.getDouble("west") <= longitud
                                     && obj.getDouble("north") >= latitud && obj.getDouble("south") <= latitud){
-                                System.out.println(obj.getString("countryName"));
 
-                                //**********************
-
-                                String cadena2 = "http://api.geonames.org/earthquakesJSON?formatted=true" +
+                                String apiEarthquakes = "http://api.geonames.org/earthquakesJSON?formatted=true" +
                                         "&north=" + Double.toString(obj.getDouble("north")) + "&south=" + Double.toString(obj.getDouble("south")) +
                                         "&east=" + Double.toString(obj.getDouble("east")) + "" + "&west=" + Double.toString(obj.getDouble("west")) +
                                         "&username=gabceb95&style=full";
 
-                                URL url2 = null; // Url de donde queremos obtener información
-
-                                url2 = new URL(cadena2);
-                                HttpURLConnection connection2 = (HttpURLConnection) url2.openConnection(); //Abrir la conexión
-                                connection2.setRequestProperty("User-Agent", "Mozilla/5.0" +
-                                        " (Linux; Android 1.5; es-ES) Ejemplo HTTP");
-                                //connection.setHeader("content-type", "application/json");
-                                int respuesta2 = connection2.getResponseCode();
-                                StringBuilder result2 = new StringBuilder();
-
-                                if (respuesta2 == HttpURLConnection.HTTP_OK ) {
-                                    InputStream in2 = new BufferedInputStream(connection2.getInputStream());  // preparo la cadena de entrada
-                                    BufferedReader reader2 = new BufferedReader(new InputStreamReader(in2));  // la introduzco en un BufferedReader
-                                    String line2 = "";
-                                    while ((line2 = reader2.readLine()) != null) {
-
-                                        if (line2 != null)
-                                            result2.append(line2);
-                                    }
-                                }
-
-                                return result2.toString();
-                                //**********************
-
+                                return req.getEarthquakes(apiEarthquakes);
                             }
                         }
 
                         return devuelve;
-                    }
-
-           }catch (Exception e) {
+            } catch (Exception e) {
                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();}
 
             return devuelve;
@@ -267,7 +238,7 @@ public class NavigationActivity extends Base
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(getApplicationContext(), " ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Buscando sismos...", Toast.LENGTH_SHORT).show();
             super.onPreExecute();
         }
 
@@ -280,7 +251,5 @@ public class NavigationActivity extends Base
 
 
     // ******************************* GPS
-
-    public void Mensaje(String msg){Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
 
 }
