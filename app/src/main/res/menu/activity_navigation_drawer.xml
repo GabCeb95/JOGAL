@@ -7,13 +7,13 @@
             android:icon="@drawable/ic_map"
             android:title="Mapa" />
         <item
-            android:id="@+id/nav_sismos_oficiales"
-            android:icon="@drawable/ic_sismos_oficiales"
-            android:title="Sismos Oficiales" />
+            android:id="@+id/nav_sismos"
+            android:icon="@drawable/ic_sismos"
+            android:title="Sismos" />
         <item
-            android:id="@+id/nav_sismos_reportados"
-            android:icon="@drawable/ic_sismos_reportados"
-            android:title="Reportados" />
+            android:id="@+id/nav_clima"
+            android:icon="@drawable/ic_clima"
+            android:title="Clima" />
     </group>
 
 </menu>
