@@ -35,6 +35,7 @@ public class Sismo {
         this.longitud = obj.getString("lng");
         this.fecha = obj.getString("fecha");
         this.magnitud = obj.getString("magnitud");
+        this.epicentro = obj.getString("epicentro");
     }
 
      public String getLatitud() {

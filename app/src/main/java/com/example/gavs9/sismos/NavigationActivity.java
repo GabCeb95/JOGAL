@@ -271,7 +271,8 @@ public class NavigationActivity extends Base
                             .position(pos)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.sismo))
                             .anchor(0.0f, 1.0f)
-                            .title(("Fecha : " + obj.getString("datetime")) + (" \nMagnitud : " + obj.getString("depth"))));
+                            .title(("Fecha : " + obj.getString("datetime")))
+                            .snippet(("Magnitud : " + obj.getString("depth"))));
 
 
                 }
@@ -310,8 +311,9 @@ public class NavigationActivity extends Base
                             .position(pos1)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.reporte))
                             .anchor(0.0f, 1.0f)
-                            .title("Fecha : " + sismo.getFecha() + (" \nMagnitud : " + sismo.getMagnitud()) +
-                                    (" \nEpicentro : " + sismo.getEpicentro())));
+                            .title("Fecha : " + sismo.getFecha() )
+                            .snippet(("Magnitud : " + sismo.getMagnitud()) +
+                                    ("  " + sismo.getEpicentro())));
                 }
             }catch(Exception e) {
                 System.out.println("ERROR : " + e.getMessage());
@@ -337,7 +339,7 @@ public class NavigationActivity extends Base
                         .position(pos1)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.accidente))
                         .anchor(0.0f, 1.0f)
-                        .title("Fecha : " + reporte.getFecha() + (" Tipo : " + reporte.getDescripcion())));
+                        .title("Fecha : " + reporte.getFecha() ).snippet((" Tipo : " + reporte.getDescripcion())));
             }
         }catch(Exception e) {
             System.out.println("ERROR : " + e.getMessage());
