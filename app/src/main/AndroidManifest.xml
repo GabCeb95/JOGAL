@@ -55,6 +55,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.gavs9.sismos.NavigationActivity" />
         </activity>
+        <activity
+            android:name=".ClimaActivity"
+            android:label="@string/title_activity_clima"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

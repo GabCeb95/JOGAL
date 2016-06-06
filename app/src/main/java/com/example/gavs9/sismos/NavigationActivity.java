@@ -143,8 +143,8 @@ public class NavigationActivity extends Base
                 Mensaje("No es posible obtener su ubicación");
             }
         } else if (id == R.id.nav_clima) {
-            //Intent intento = new Intent(getApplicationContext(), SismosReportadosActivity.class);
-            //startActivity(intento);
+            Intent intento = new Intent(getApplicationContext(), ClimaActivity.class);
+            startActivity(intento);
         }else if(id == R.id.nav_reportes)
         {
             mMap.clear();
